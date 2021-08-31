@@ -36,13 +36,17 @@ export default function Home() {
 
     // fetch call
     acceptedFiles.forEach(async acceptedFile => {
+      const { signature, timestamp } = await getSignature();
+
       const formData = new FormData();
       formData.append('file', acceptedFile);
-      formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
-      // formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+      // formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
+      formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+      formData.append('timestamp', timestamp);
+      formData.append('signature', signature);
 
       const response = await fetch(url, {
-        method: 'post',
+        method: 'POST',
         body: formData,
       });
 
@@ -80,4 +84,11 @@ export default function Home() {
       </ul>
     </>
   )
+}
+
+async function getSignature() {
+  const response = await fetch('./api/sign.js');
+  const data = await response.json();
+  const { signature, timestamp } = data;
+  return { signature, timestamp };
 }
