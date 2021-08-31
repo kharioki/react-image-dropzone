@@ -79,7 +79,7 @@ export default function Home() {
               alt={file.original_filename}
               cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
               publicId={file.public_id}
-              width="300"
+              width="100"
               crop="scale"
             />
           </li>
