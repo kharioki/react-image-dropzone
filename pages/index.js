@@ -41,7 +41,7 @@ export default function Home() {
       const formData = new FormData();
       formData.append('file', acceptedFile);
       // formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
-      formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+      formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_KEY);
       formData.append('timestamp', timestamp);
       formData.append('signature', signature);
 
@@ -64,7 +64,10 @@ export default function Home() {
 
   return (
     <>
-      <div {...getRootProps()} className={`${styles.dropzone} ${isDragActive ? styles.active : null}`}>
+      <div
+        {...getRootProps()}
+        className={`${styles.dropzone} ${isDragActive ? styles.active : null}`}
+      >
         <input {...getInputProps()} />
         Drop Zone
       </div>
@@ -87,7 +90,7 @@ export default function Home() {
 }
 
 async function getSignature() {
-  const response = await fetch('./api/sign.js');
+  const response = await fetch('/api/sign');
   const data = await response.json();
   const { signature, timestamp } = data;
   return { signature, timestamp };
